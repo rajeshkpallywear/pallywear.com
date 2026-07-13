@@ -1,0 +1,159 @@
+.promo-banner-section {
+  padding: 4rem 1.5rem;
+}
+
+.promo-banner-card {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 4rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 4rem;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.12) 0%, transparent 45%), 
+              radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.08) 0%, transparent 45%), 
+              #090d16;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
+}
+
+.promo-banner-form-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.promo-banner-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.promo-banner-subtitle {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 480px;
+}
+
+.promo-banner-form {
+  display: flex;
+  gap: 0.75rem;
+  max-width: 480px;
+}
+
+.promo-banner-input {
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 0.9rem;
+  flex-grow: 1;
+}
+
+.promo-banner-input:focus {
+  border-color: var(--primary);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.promo-banner-btn {
+  padding: 0.75rem 2rem;
+}
+
+.promo-banner-disclaimer {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 0.75rem;
+}
+
+/* Right Side: Benefits Panel */
+.promo-banner-benefits-panel {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem 2rem;
+}
+
+.benefit-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.benefit-icon-wrapper {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.benefit-icon-wrapper.purple-bg {
+  background-color: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+}
+
+.benefit-icon-wrapper.orange-bg {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.benefit-icon-wrapper.green-bg {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+.benefit-icon-wrapper.blue-bg {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+}
+
+.benefit-info h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+.benefit-info p {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.4;
+}
+
+/* Responsiveness */
+@media (max-width: 992px) {
+  .promo-banner-card {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+    padding: 3rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .promo-banner-card {
+    padding: 2rem 1.5rem;
+  }
+  .promo-banner-title {
+    font-size: 1.75rem;
+  }
+  .promo-banner-form {
+    flex-direction: column;
+  }
+  .benefits-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}

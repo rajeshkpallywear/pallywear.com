@@ -1,0 +1,222 @@
+.footer-container {
+  background-color: var(--bg-card);
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+  color: var(--text-main);
+  transition: background-color var(--transition-normal), border-color var(--transition-normal);
+}
+
+/* Top Newsletter signup section */
+.footer-top-newsletter-bar {
+  border-bottom: 1px solid var(--border);
+  padding: 3rem 0;
+  transition: border-color var(--transition-normal);
+}
+
+.footer-top-newsletter-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.newsletter-text-block h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.newsletter-text-block p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.footer-top-newsletter-form {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 440px;
+}
+
+.footer-top-newsletter-input {
+  background-color: var(--bg-main);
+  font-size: 0.85rem;
+  flex-grow: 1;
+}
+
+.footer-top-newsletter-btn {
+  padding: 0.75rem 1.5rem;
+}
+
+/* Link categories sections */
+.footer-main-links-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 4rem;
+  padding: 4rem 1.5rem 3.5rem;
+}
+
+.brand-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.footer-brand {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  cursor: pointer;
+  user-select: none;
+}
+
+.brand-accent {
+  color: var(--primary);
+}
+
+.footer-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.social-media-icons {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 1.1rem;
+}
+
+.social-media-icons a {
+  transition: transform var(--transition-fast);
+}
+
+.social-media-icons a:hover {
+  transform: scale(1.15);
+}
+
+.footer-link-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.footer-col-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-main);
+}
+
+.footer-link-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-link-col li {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  width: fit-content;
+}
+
+.footer-link-col li:hover {
+  color: var(--primary);
+  transform: translateX(3px);
+}
+
+.footer-link-col li.sale-highlight {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.footer-link-col li.sale-highlight:hover {
+  color: var(--primary-hover);
+}
+
+/* Bottom Copyright & Payments section */
+.footer-bottom-bar {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  transition: border-color var(--transition-normal);
+}
+
+.footer-bottom-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bottom-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.legal-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.legal-links span {
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.legal-links span:hover {
+  color: var(--primary);
+}
+
+.payment-gateways-icons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.payment-card-badge {
+  display: flex;
+  align-items: center;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Responsiveness media queries */
+@media (max-width: 992px) {
+  .footer-top-newsletter-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  .footer-top-newsletter-form {
+    max-width: 100%;
+  }
+  .footer-main-links-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .footer-main-links-grid {
+    grid-template-columns: 1fr;
+  }
+  .footer-bottom-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+  .bottom-bar-right {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 1.25rem;
+  }
+}

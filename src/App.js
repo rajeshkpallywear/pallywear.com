@@ -1,24 +1,65 @@
-import logo from './logo.svg';
+import React, { useContext, useState } from 'react';
+import { ShopProvider, ShopContext } from './context/ShopContext';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Home from './components/Home';
+import ProductCatalog from './components/ProductCatalog';
+import ProductDetail from './components/ProductDetail';
+import CartDrawer from './components/CartDrawer';
+import Checkout from './components/Checkout';
+import AdminPanel from './components/AdminPanel';
+import About from './components/About';
+import AuthModal from './components/AuthModal';
 import './App.css';
+
+function MainAppContent() {
+  const { activeView, toast } = useContext(ShopContext);
+  const [cartOpen, setCartOpen] = useState(false);
+
+  const renderView = () => {
+    switch (activeView) {
+      case 'home':
+        return <Home />;
+      case 'shop':
+        return <ProductCatalog />;
+      case 'product-detail':
+        return <ProductDetail />;
+      case 'checkout':
+        return <Checkout />;
+      case 'admin':
+        return <AdminPanel />;
+      case 'about':
+        return <About />;
+      default:
+        return <Home />;
+    }
+  };
+
+  return (
+    <div className="App">
+      {/* Toast Notification Popup */}
+      <div className={`toast-notification glass ${toast.show ? 'show' : ''}`}>
+        <span>{toast.message}</span>
+      </div>
+
+      <Navbar onCartClick={() => setCartOpen(true)} />
+      
+      <main className="main-content-layout animate-fade-in">
+        {renderView()}
+      </main>
+
+      <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+      <AuthModal />
+      <Footer />
+    </div>
+  );
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ShopProvider>
+      <MainAppContent />
+    </ShopProvider>
   );
 }
 

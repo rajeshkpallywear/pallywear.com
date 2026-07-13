@@ -1,0 +1,51 @@
+.homepage-wrapper {
+  padding-bottom: 4rem;
+}
+
+.home-featured-section, .home-new-arrivals-section {
+  padding: 4rem 1.5rem;
+}
+
+.home-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1.5rem;
+}
+
+.header-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.badge-bullet-point {
+  color: var(--secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+  display: inline-block;
+}
+
+.view-all-link-btn {
+  font-size: 0.85rem;
+  padding: 0.5rem 1.25rem;
+  white-space: nowrap;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .home-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+  .view-all-link-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

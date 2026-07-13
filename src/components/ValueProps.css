@@ -1,0 +1,66 @@
+.value-props-section {
+  padding: 3rem 1.5rem 1rem;
+}
+
+.value-props-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.value-prop-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.5rem;
+}
+
+.value-prop-icon-wrapper {
+  flex-shrink: 0;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: var(--radius-md);
+  background-color: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-fast), background-color var(--transition-normal);
+}
+
+.value-prop-card:hover .value-prop-icon-wrapper {
+  transform: scale(1.06);
+}
+
+.value-prop-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.value-prop-text h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.value-prop-text p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Responsiveness */
+@media (max-width: 992px) {
+  .value-props-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .value-props-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
