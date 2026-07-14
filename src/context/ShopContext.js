@@ -2,205 +2,7 @@ import React, { createContext, useState, useEffect } from 'react';
 
 export const ShopContext = createContext();
 
-const INITIAL_PRODUCTS = [
-  {
-    id: 'ts-01',
-    name: 'Classic Heavyweight Tee',
-    price: 29.99,
-    category: 'Clothing',
-    image: '/images/tshirt-classic-black.png',
-    sizes: ['S', 'M', 'L', 'XL'],
-    colors: ['Black', 'Dark Gray'],
-    rating: 4.8,
-    reviews: 142,
-    stock: 25,
-    tag: 'Best Seller',
-    description: 'Crafted from 100% premium organic cotton. Heavyweight fabric with a clean structured cut, designed to retain its shape after endless wash cycles. Perfect as a standalone statement or layering piece.'
-  },
-  {
-    id: 'ts-02',
-    name: 'Oversized Drop-Shoulder Tee',
-    price: 34.99,
-    category: 'Clothing',
-    image: '/images/tshirt-oversized-white.png',
-    sizes: ['S', 'M', 'L', 'XL'],
-    colors: ['White', 'Beige'],
-    rating: 4.9,
-    reviews: 218,
-    stock: 15,
-    tag: 'Trending',
-    description: 'Ultimate comfort meets modern streetwear aesthetics. Drop shoulder silhouette featuring a thick ribbed crew collar and a relaxed drape. Made from heavy-density, pre-shrunk cotton blend.'
-  },
-  {
-    id: 'ts-03',
-    name: 'Vintage Washed Charcoal Tee',
-    price: 39.99,
-    category: 'Clothing',
-    image: '/images/tshirt-vintage-washed.png',
-    sizes: ['M', 'L', 'XL'],
-    colors: ['Charcoal', 'Olive'],
-    rating: 4.7,
-    reviews: 89,
-    stock: 8,
-    tag: 'Limited Run',
-    description: 'Individually dyed for a custom lived-in look and feel. Soft, breathable cotton with unique double-needle stitch detailing on sleeves and hem. Provides a sleek retro-vintage silhouette.'
-  },
-  {
-    id: 'ts-04',
-    name: 'Retro 90s Graphic Tee',
-    price: 44.99,
-    category: 'Clothing',
-    image: '/images/tshirt-graphic-retro.png',
-    sizes: ['S', 'M', 'L'],
-    colors: ['Acid Black', 'Navy'],
-    rating: 4.9,
-    reviews: 304,
-    tag: 'New',
-    description: 'Bold, colorful nostalgia captured on fabric. Features a custom neon 90s-inspired typeface screenprinted using eco-friendly water-based inks. High-density weave for superior longevity.'
-  },
-  {
-    id: 'cl-01',
-    name: 'Minimal Leather Jacket',
-    price: 299.00,
-    discountedFrom: 399.00,
-    category: 'Clothing',
-    image: '/images/leather-jacket.png',
-    sizes: ['S', 'M', 'L', 'XL'],
-    colors: ['Black', 'Dark Gray'],
-    rating: 4.8,
-    reviews: 72,
-    stock: 15,
-    tag: 'Best Seller',
-    description: 'A timeless wardrobe essential. Cut from premium butter-soft lambskin leather that develops a beautiful character over time. Features clean matte zippers and satin lining.'
-  },
-  {
-    id: 'cl-02',
-    name: 'Cashmere Crewneck Sweater',
-    price: 189.00,
-    category: 'Clothing',
-    image: '/images/cashmere-sweater.png',
-    sizes: ['S', 'M', 'L', 'XL'],
-    colors: ['Beige', 'Navy', 'Pink'],
-    rating: 4.9,
-    reviews: 94,
-    stock: 18,
-    tag: 'New',
-    description: 'Woven from 100% fine grade Mongolian cashmere. Unparalleled softness, warmth, and lightweight breathability. Features clean ribbed cuffs and hem.'
-  },
-  {
-    id: 'ac-01',
-    name: 'Aviator Sunglasses',
-    price: 145.00,
-    category: 'Accessories',
-    image: '/images/aviator-sunglasses.png',
-    sizes: ['One Size'],
-    colors: ['Gold', 'Silver', 'Rose Gold'],
-    rating: 4.7,
-    reviews: 112,
-    stock: 20,
-    tag: 'Trending',
-    description: 'Classic aviator design featuring durable titanium frames and polarized lenses. Offers 100% UV protection with a feather-light fit.'
-  },
-  {
-    id: 'fw-01',
-    name: 'Minimalist Leather Sneakers',
-    price: 165.00,
-    category: 'Footwear',
-    image: '/images/leather-sneakers.png',
-    sizes: ['8', '9', '10', '11'],
-    colors: ['White', 'Black', 'Navy'],
-    rating: 4.8,
-    reviews: 168,
-    stock: 22,
-    tag: 'Best Seller',
-    description: 'Handcrafted in Italy using full-grain calfskin leather. Minimalist low-top silhouette with a Margom rubber sole and micro-stitched lining.'
-  },
-  {
-    id: 'wa-01',
-    name: 'Automatic Dress Watch',
-    price: 495.00,
-    category: 'Watches',
-    image: '/images/dress-watch.png',
-    sizes: ['One Size'],
-    colors: ['Beige', 'White', 'Gold'],
-    rating: 4.7,
-    reviews: 41,
-    stock: 6,
-    tag: 'Limited Run',
-    description: 'Exquisite automatic timepiece featuring a Japanese mechanical movement. Framed in a polished stainless steel case with a genuine leather strap and sapphire crystal dome.'
-  },
-  {
-    id: 'jw-01',
-    name: 'Diamond Pendant Necklace',
-    price: 350.00,
-    category: 'Jewelry',
-    image: '/images/diamond-necklace.png',
-    sizes: ['One Size'],
-    colors: ['White Gold', 'Yellow Gold', 'Rose Gold'],
-    rating: 4.9,
-    reviews: 64,
-    stock: 10,
-    tag: 'Trending',
-    description: 'A delicate 18k solid gold chain suspending a micro-pave crescent diamond pendant. Handset with ethically sourced diamonds.'
-  },
-  {
-    id: 'cl-03',
-    name: 'Italian Wool Overcoat',
-    price: 425.00,
-    discountedFrom: 525.00,
-    category: 'Clothing',
-    image: '/images/wool-overcoat.png',
-    sizes: ['M', 'L', 'XL'],
-    colors: ['Camel', 'Charcoal', 'Black'],
-    rating: 4.8,
-    reviews: 83,
-    stock: 8,
-    tag: 'Premium',
-    description: 'An elegant long coat tailored from a heavy Italian virgin wool blend. Features structured notch lapels, double-breasted button closures, and functional flap pockets.'
-  },
-  {
-    id: 'fw-02',
-    name: 'Performance Running Sneakers',
-    price: 145.00,
-    category: 'Footwear',
-    image: '/images/running-sneakers.png',
-    sizes: ['8', '9', '10', '11'],
-    colors: ['Red', 'Black', 'Blue'],
-    rating: 4.6,
-    reviews: 140,
-    stock: 25,
-    tag: 'New',
-    description: 'Engineered high-rebound responsive midsole paired with a breathable engineered knit upper. Perfect for long-distance training or running.'
-  },
-  {
-    id: 'ac-02',
-    name: 'Printed Silk Scarf',
-    price: 125.00,
-    category: 'Accessories',
-    image: '/images/silk-scarf.png',
-    sizes: ['One Size'],
-    colors: ['Green', 'Beige', 'Navy'],
-    rating: 4.8,
-    reviews: 32,
-    stock: 12,
-    tag: 'New',
-    description: 'Woven from 100% fine mulberry silk with hand-rolled hems. Showcases a custom geometric line-art graphic print in deep botanical hues.'
-  },
-  {
-    id: 'fw-03',
-    name: 'Suede Chelsea Boots',
-    price: 285.00,
-    category: 'Footwear',
-    image: '/images/suede-boots.png',
-    sizes: ['8', '9', '10', '11'],
-    colors: ['Brown', 'Charcoal', 'Black'],
-    rating: 4.8,
-    reviews: 73,
-    stock: 14,
-    tag: 'Best Seller',
-    description: 'Classic slip-on boots crafted from rich calf suede with comfortable elastic side goring. Features a durable leather outsole with a rubber grip insert.'
-  }
-];
+const INITIAL_PRODUCTS = [];
 
 export const ShopProvider = ({ children }) => {
   // Theme state
@@ -229,7 +31,19 @@ export const ShopProvider = ({ children }) => {
   const [activeProduct, setActiveProduct] = useState(null);
 
   // Cart & Inventory state
-  const [products, setProducts] = useState(INITIAL_PRODUCTS);
+  const [products, setProducts] = useState(() => {
+    try {
+      const saved = localStorage.getItem('pallywear_products');
+      return saved ? JSON.parse(saved) : INITIAL_PRODUCTS;
+    } catch (e) {
+      return INITIAL_PRODUCTS;
+    }
+  });
+
+  // Sync products to local storage
+  useEffect(() => {
+    localStorage.setItem('pallywear_products', JSON.stringify(products));
+  }, [products]);
   const [cart, setCart] = useState(() => {
     try {
       const saved = localStorage.getItem('pallywear_cart');

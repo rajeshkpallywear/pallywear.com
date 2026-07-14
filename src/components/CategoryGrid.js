@@ -14,6 +14,7 @@ const CategoryGrid = () => {
     { name: 'Watches', count: 25, image: '/images/dress-watch.png', gridArea: 'watches' }
   ];
 
+
   const handleCategoryClick = (categoryName) => {
     setFilters(prev => ({ ...prev, category: categoryName }));
     setView('shop');
@@ -38,7 +39,7 @@ const CategoryGrid = () => {
               <img src={cat.image} alt={cat.name} className="category-img" />
               <div className="category-card-overlay" />
             </div>
-            
+
             <div className="category-card-content">
               <h3>{cat.name}</h3>
               <p>{cat.count} Products</p>

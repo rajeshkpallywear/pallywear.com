@@ -20,6 +20,37 @@ const AdminPanel = () => {
 
   const [sizeInput, setSizeInput] = useState('S,M,L,XL');
   const [colorInput, setColorInput] = useState('Black,White');
+  const [uploadedImages, setUploadedImages] = useState([]);
+
+  const handleImageUpload = (e) => {
+    const files = Array.from(e.target.files);
+    const remainingSlots = 4 - uploadedImages.length;
+    
+    if (files.length > remainingSlots) {
+      showToast(`You can only upload up to 4 images. Adding the first ${remainingSlots}.`, 'warning');
+    }
+
+    const filesToProcess = files.slice(0, remainingSlots);
+
+    filesToProcess.forEach(file => {
+      if (!file.type.startsWith('image/')) {
+        showToast('Please select image files only.', 'error');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setUploadedImages(prev => {
+          if (prev.length >= 4) return prev;
+          return [...prev, event.target.result];
+        });
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleRemoveImage = (index) => {
+    setUploadedImages(prev => prev.filter((_, i) => i !== index));
+  };
 
   // Pre-populate mock orders for aesthetics if none have been submitted yet
   const displayOrders = orders.length > 0 ? orders : [
@@ -68,13 +99,19 @@ const AdminPanel = () => {
       return;
     }
 
+    if (uploadedImages.length === 0) {
+      showToast('Please upload at least one image.', 'error');
+      return;
+    }
+
     addProduct({
       ...newProduct,
       price: priceNum,
       stock: parseInt(newProduct.stock) || 10,
       sizes: sizesArr,
       colors: colorsArr,
-      image: '/images/tshirt-classic-black.png' // Default mock graphic image for new additions
+      images: uploadedImages,
+      image: uploadedImages[0]
     });
 
     // Reset form
@@ -88,6 +125,7 @@ const AdminPanel = () => {
       tag: 'New',
       description: ''
     });
+    setUploadedImages([]);
     setSizeInput('S,M,L,XL');
     setColorInput('Black,White');
   };
@@ -327,6 +365,45 @@ const AdminPanel = () => {
                   <option value="Best Seller">Best Seller</option>
                   <option value="Limited Run">Limited Run</option>
                 </select>
+              </div>
+
+              <div className="form-group">
+                <label>Product Images (Up to 4)</label>
+                <div className="image-uploader-container">
+                  <label className={`image-uploader-dropzone ${uploadedImages.length >= 4 ? 'disabled' : ''}`}>
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden-file-input"
+                      disabled={uploadedImages.length >= 4}
+                    />
+                    <div className="upload-placeholder">
+                      <span className="upload-icon">📸</span>
+                      <span className="upload-text">Click to upload images</span>
+                      <span className="upload-subtext">({uploadedImages.length} / 4 uploaded)</span>
+                    </div>
+                  </label>
+                  {uploadedImages.length > 0 && (
+                    <div className="uploaded-images-preview">
+                      {uploadedImages.map((img, index) => (
+                        <div key={index} className="preview-image-wrapper">
+                          <img src={img} alt={`Preview ${index + 1}`} className="preview-image-thumb" />
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveImage(index)}
+                            className="remove-preview-btn"
+                            title="Remove image"
+                          >
+                            &times;
+                          </button>
+                          {index === 0 && <span className="main-image-badge">Main</span>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="form-group">

@@ -14,11 +14,13 @@ const Home = () => {
 
   // Curate 8 featured products (as shown in screenshots 2 & 3)
   const featuredIds = ['cl-01', 'cl-02', 'ac-01', 'fw-01', 'wa-01', 'jw-01', 'cl-03', 'fw-02'];
-  const featuredProducts = products.filter(p => featuredIds.includes(p.id));
+  const matchedFeatured = products.filter(p => featuredIds.includes(p.id));
+  const featuredProducts = matchedFeatured.length > 0 ? matchedFeatured : products.slice(0, 8);
 
   // Curate new arrivals (as shown in screenshot 5)
   const newArrivalsIds = ['cl-02', 'fw-01', 'ac-02', 'fw-03'];
-  const newArrivals = products.filter(p => newArrivalsIds.includes(p.id));
+  const matchedNewArrivals = products.filter(p => newArrivalsIds.includes(p.id));
+  const newArrivals = matchedNewArrivals.length > 0 ? matchedNewArrivals : products.slice(0, 4);
 
   const handleViewAllProducts = () => {
     setFilters(prev => ({ ...prev, category: 'All' }));
@@ -32,43 +34,47 @@ const Home = () => {
       <CategoryGrid />
 
       {/* Featured Products Grid */}
-      <section className="home-featured-section container animate-fade-in">
-        <div className="home-section-header">
-          <div className="header-titles">
-            <h2 className="section-title">Featured Products</h2>
-            <p className="section-subtitle">Discover our handpicked selection of trending items</p>
+      {featuredProducts.length > 0 && (
+        <section className="home-featured-section container animate-fade-in">
+          <div className="home-section-header">
+            <div className="header-titles">
+              <h2 className="section-title">Featured Products</h2>
+              <p className="section-subtitle">Discover our handpicked selection of trending items</p>
+            </div>
+            <button onClick={handleViewAllProducts} className="btn btn-secondary view-all-link-btn">
+              View All Products <ArrowRightIcon size={14} />
+            </button>
           </div>
-          <button onClick={handleViewAllProducts} className="btn btn-secondary view-all-link-btn">
-            View All Products <ArrowRightIcon size={14} />
-          </button>
-        </div>
 
-        <div className="grid-catalog">
-          {featuredProducts.map(product => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </section>
+          <div className="grid-catalog">
+            {featuredProducts.map(product => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* New Arrivals Grid */}
-      <section className="home-new-arrivals-section container animate-fade-in">
-        <div className="home-section-header">
-          <div className="header-titles">
-            <span className="badge-bullet-point">• Just Dropped</span>
-            <h2 className="section-title">New Arrivals</h2>
-            <p className="section-subtitle">Fresh styles added to our collection</p>
+      {newArrivals.length > 0 && (
+        <section className="home-new-arrivals-section container animate-fade-in">
+          <div className="home-section-header">
+            <div className="header-titles">
+              <span className="badge-bullet-point">• Just Dropped</span>
+              <h2 className="section-title">New Arrivals</h2>
+              <p className="section-subtitle">Fresh styles added to our collection</p>
+            </div>
+            <button onClick={handleViewAllProducts} className="btn btn-secondary view-all-link-btn">
+              See All New <ArrowRightIcon size={14} />
+            </button>
           </div>
-          <button onClick={handleViewAllProducts} className="btn btn-secondary view-all-link-btn">
-            See All New <ArrowRightIcon size={14} />
-          </button>
-        </div>
 
-        <div className="grid-catalog">
-          {newArrivals.map(product => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </section>
+          <div className="grid-catalog">
+            {newArrivals.map(product => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Testimonials Review Feed */}
       <Testimonials />

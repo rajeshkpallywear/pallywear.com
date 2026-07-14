@@ -11,6 +11,18 @@ const ProductDetail = () => {
   const [selectedColor, setSelectedColor] = useState(activeProduct?.colors[0] || '');
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  // Reset image view index when product changes
+  React.useEffect(() => {
+    setSelectedImageIndex(0);
+  }, [activeProduct]);
+
+  const images = activeProduct?.images && activeProduct.images.length > 0
+    ? activeProduct.images
+    : (activeProduct?.image ? [activeProduct.image] : []);
+
+  const mainImage = images[selectedImageIndex] || activeProduct?.image;
 
   if (!activeProduct) {
     return (
@@ -56,8 +68,21 @@ const ProductDetail = () => {
         {/* Left: Product Image */}
         <div className="detail-image-panel">
           <div className="detail-image-wrapper">
-            <img src={activeProduct.image} alt={activeProduct.name} className="detail-image" />
+            <img src={mainImage} alt={activeProduct.name} className="detail-image" />
           </div>
+          {images.length > 1 && (
+            <div className="detail-thumbnails-row">
+              {images.map((img, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedImageIndex(index)}
+                  className={`detail-thumbnail-btn ${selectedImageIndex === index ? 'selected' : ''}`}
+                >
+                  <img src={img} alt="" className="detail-thumbnail-img" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Right: Info Section */}
