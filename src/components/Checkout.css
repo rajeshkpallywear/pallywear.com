@@ -248,3 +248,162 @@
     padding: 2rem;
   }
 }
+
+/* Payment Methods Selector Grid */
+.payment-methods-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.payment-method-tile {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+  user-select: none;
+}
+
+.payment-method-tile:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.08);
+}
+
+.payment-method-tile.active {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+/* Brand specific active tiles style modifications */
+.payment-method-tile.active:has(.gpay-brand) {
+  background: rgba(66, 133, 244, 0.08);
+  border-color: #4285F4;
+  color: #4285F4;
+  box-shadow: 0 0 0 1px #4285F4;
+}
+.payment-method-tile.active:has(.phonepe-brand) {
+  background: rgba(95, 37, 159, 0.08);
+  border-color: #5F259F;
+  color: #5F259F;
+  box-shadow: 0 0 0 1px #5F259F;
+}
+.payment-method-tile.active:has(.paytm-brand) {
+  background: rgba(0, 185, 245, 0.08);
+  border-color: #00B9F5;
+  color: #00B9F5;
+  box-shadow: 0 0 0 1px #00B9F5;
+}
+
+.tile-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-main);
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.payment-method-tile.active .tile-icon-wrapper {
+  background: var(--bg-card);
+  color: inherit;
+}
+
+.tile-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* UPI Form Content */
+.upi-fields-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+}
+
+.qr-scanner-box {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: var(--bg-main);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: 1.5px dashed var(--border);
+}
+
+.qr-code-svg {
+  background: white;
+  padding: 6px;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  color: #0f172a; /* Make QR dots dark in both themes for contrast */
+}
+
+.qr-scanner-desc h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+}
+
+.qr-scanner-desc p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.upi-separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin: 0.25rem 0;
+}
+
+.upi-separator::before,
+.upi-separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border);
+}
+
+.upi-separator span {
+  padding: 0 10px;
+}
+
+.payment-fields-wrapper {
+  margin-bottom: 1.5rem;
+}
+
+/* Media query adaptation */
+@media (max-width: 480px) {
+  .payment-methods-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .qr-scanner-box {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+}

@@ -73,6 +73,12 @@ const Navbar = ({ onCartClick }) => {
             >
               About
             </li>
+            <li 
+              className={activeView === 'track-order' ? 'active' : ''} 
+              onClick={() => setView('track-order')}
+            >
+              Track Order
+            </li>
           </ul>
 
           {/* Action Icons */}

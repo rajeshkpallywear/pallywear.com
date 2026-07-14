@@ -17,7 +17,7 @@ const ValueProps = () => {
           </div>
           <div className="value-prop-text">
             <h4>Free Shipping</h4>
-            <p>Free shipping on all orders over $100. Express delivery available.</p>
+            <p>Free shipping for first order only.</p>
           </div>
         </div>
 
@@ -31,7 +31,7 @@ const ValueProps = () => {
           </div>
           <div className="value-prop-text">
             <h4>Secure Payment</h4>
-            <p>Your payment information is processed securely with SSL encryption.</p>
+            <p>Your payment information is processed securely.</p>
           </div>
         </div>
 

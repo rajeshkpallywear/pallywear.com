@@ -4,7 +4,9 @@ import { TrashIcon, PlusIcon } from './Icons';
 import './AdminPanel.css';
 
 const AdminPanel = () => {
-  const { products, orders, addProduct, deleteProduct, showToast } = useContext(ShopContext);
+  const { products, orders, addProduct, deleteProduct, updateOrderStatus, showToast } = useContext(ShopContext);
+
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   // Form states for creating products
   const [newProduct, setNewProduct] = useState({
@@ -52,25 +54,7 @@ const AdminPanel = () => {
     setUploadedImages(prev => prev.filter((_, i) => i !== index));
   };
 
-  // Pre-populate mock orders for aesthetics if none have been submitted yet
-  const displayOrders = orders.length > 0 ? orders : [
-    {
-      orderId: 'ORD-928492',
-      date: '07/13/2026 12:44:03 PM',
-      shippingInfo: { fullName: 'Sarah Smith', email: 'sarah@example.com' },
-      items: [{ product: { name: 'Oversized Drop-Shoulder Tee' }, size: 'M', color: 'White', quantity: 2 }],
-      total: 69.98,
-      status: 'Shipped'
-    },
-    {
-      orderId: 'ORD-109348',
-      date: '07/12/2026 09:21:40 AM',
-      shippingInfo: { fullName: 'Robert Johnson', email: 'robert@example.com' },
-      items: [{ product: { name: 'Vintage Washed Charcoal Tee' }, size: 'XL', color: 'Charcoal', quantity: 1 }],
-      total: 49.98, // including shipping
-      status: 'Delivered'
-    }
-  ];
+  // Input states for form
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -131,8 +115,8 @@ const AdminPanel = () => {
   };
 
   // Mock analytical stats
-  const totalSales = displayOrders.reduce((sum, o) => sum + o.total, 0) + 12450.50; // seeded base
-  const totalOrdersCount = displayOrders.length + 348;
+  const totalSales = orders.reduce((sum, o) => sum + o.total, 0) + 12450.50; // seeded base
+  const totalOrdersCount = orders.length + 348;
   const avgOrderValue = totalSales / totalOrdersCount;
 
   return (
@@ -242,8 +226,13 @@ const AdminPanel = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {displayOrders.map(order => (
-                    <tr key={order.orderId}>
+                  {orders.map(order => (
+                    <tr 
+                      key={order.orderId} 
+                      onClick={() => setSelectedOrder(order)} 
+                      style={{ cursor: 'pointer' }}
+                      className="admin-order-row"
+                    >
                       <td className="order-id-cell">{order.orderId}</td>
                       <td className="order-date-cell">{order.date}</td>
                       <td>
@@ -426,6 +415,141 @@ const AdminPanel = () => {
           </div>
         </aside>
       </div>
+
+      {/* Order Details Drawer Overlay */}
+      {selectedOrder && (
+        <div className="order-details-overlay" onClick={() => setSelectedOrder(null)}>
+          <div className="order-details-drawer glass animate-slide-in" onClick={(e) => e.stopPropagation()}>
+            <div className="drawer-header">
+              <h3>Order Fulfillment Details</h3>
+              <button className="close-drawer-btn" onClick={() => setSelectedOrder(null)}>&times;</button>
+            </div>
+            
+            <div className="drawer-body">
+              <div className="drawer-section">
+                <h4>General Details</h4>
+                <div className="detail-row">
+                  <span>Order Reference:</span>
+                  <strong>{selectedOrder.orderId}</strong>
+                </div>
+                <div className="detail-row">
+                  <span>Order Date/Time:</span>
+                  <span>{selectedOrder.date}</span>
+                </div>
+                <div className="detail-row select-status-row">
+                  <span>Order Status:</span>
+                  <select 
+                    className="status-selector-dropdown"
+                    value={selectedOrder.status}
+                    onChange={(e) => {
+                      const newStatus = e.target.value;
+                      updateOrderStatus(selectedOrder.orderId, newStatus);
+                      setSelectedOrder(prev => ({ ...prev, status: newStatus }));
+                    }}
+                  >
+                    <option value="Processing">Processing</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="drawer-section">
+                <h4>Customer Info</h4>
+                <div className="detail-row">
+                  <span>Name:</span>
+                  <span>{selectedOrder.shippingInfo.fullName}</span>
+                </div>
+                <div className="detail-row">
+                  <span>Email Address:</span>
+                  <span>{selectedOrder.shippingInfo.email}</span>
+                </div>
+                <div className="detail-row">
+                  <span>Address:</span>
+                  <span>{selectedOrder.shippingInfo.address}</span>
+                </div>
+                <div className="detail-row">
+                  <span>City / Zip:</span>
+                  <span>{selectedOrder.shippingInfo.city}, {selectedOrder.shippingInfo.zipCode}</span>
+                </div>
+              </div>
+
+              <div className="drawer-section">
+                <h4>Payment Info</h4>
+                {selectedOrder.paymentInfo ? (
+                  <>
+                    <div className="detail-row">
+                      <span>Method:</span>
+                      <span className="payment-method-text">
+                        {selectedOrder.paymentInfo.paymentMethod === 'gpay' ? 'Google Pay (UPI)' :
+                         selectedOrder.paymentInfo.paymentMethod === 'phonepe' ? 'PhonePe (UPI)' :
+                         selectedOrder.paymentInfo.paymentMethod === 'paytm' ? 'Paytm (UPI)' : 'Credit/Debit Card'}
+                      </span>
+                    </div>
+                    {selectedOrder.paymentInfo.upiValue && (
+                      <div className="detail-row">
+                        <span>UPI ID / Mobile:</span>
+                        <strong>{selectedOrder.paymentInfo.upiValue}</strong>
+                      </div>
+                    )}
+                    {selectedOrder.paymentInfo.cardNumber && (
+                      <div className="detail-row">
+                        <span>Card Paid:</span>
+                        <strong>•••• •••• •••• {selectedOrder.paymentInfo.cardNumber.replace(/\s/g, '').slice(-4)}</strong>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="detail-row">
+                    <span>Method:</span>
+                    <span>Direct Seeding</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="drawer-section">
+                <h4>Purchased Items</h4>
+                <div className="drawer-items-list">
+                  {selectedOrder.items.map((item, idx) => (
+                    <div key={idx} className="drawer-item-card">
+                      {item.product.image && (
+                        <img src={item.product.image} alt="" className="drawer-item-img" />
+                      )}
+                      <div className="drawer-item-details">
+                        <h5>{item.product.name}</h5>
+                        <p>Size: {item.size} • Color: {item.color} • Qty: {item.quantity}</p>
+                      </div>
+                      <span className="drawer-item-price">${(item.product.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="drawer-section pricing-math-section">
+                <div className="detail-row">
+                  <span>Subtotal:</span>
+                  <span>${selectedOrder.subtotal.toFixed(2)}</span>
+                </div>
+                {selectedOrder.discount > 0 && (
+                  <div className="detail-row discount-row">
+                    <span>Discount Applied:</span>
+                    <span>-${selectedOrder.discount.toFixed(2)}</span>
+                  </div>
+                )}
+                <div className="detail-row">
+                  <span>Shipping:</span>
+                  <span>{selectedOrder.shipping === 0 ? 'FREE' : `$${selectedOrder.shipping.toFixed(2)}`}</span>
+                </div>
+                <div className="detail-row drawer-final-total">
+                  <span>Total Paid:</span>
+                  <strong>${selectedOrder.total.toFixed(2)}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

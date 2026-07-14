@@ -10,6 +10,8 @@ import Checkout from './components/Checkout';
 import AdminPanel from './components/AdminPanel';
 import About from './components/About';
 import AuthModal from './components/AuthModal';
+import WhatsAppWidget from './components/WhatsAppWidget';
+import TrackOrder from './components/TrackOrder';
 import './App.css';
 
 function MainAppContent() {
@@ -30,6 +32,8 @@ function MainAppContent() {
         return <AdminPanel />;
       case 'about':
         return <About />;
+      case 'track-order':
+        return <TrackOrder />;
       default:
         return <Home />;
     }
@@ -51,6 +55,7 @@ function MainAppContent() {
       <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
       <AuthModal />
       <Footer />
+      <WhatsAppWidget />
     </div>
   );
 }

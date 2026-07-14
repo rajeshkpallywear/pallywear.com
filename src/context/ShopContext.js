@@ -4,6 +4,71 @@ export const ShopContext = createContext();
 
 const INITIAL_PRODUCTS = [];
 
+const DEFAULT_ORDERS = [
+  {
+    orderId: 'ORD-928492',
+    date: '07/13/2026 12:44:03 PM',
+    shippingInfo: { 
+      fullName: 'Sarah Smith', 
+      email: 'sarah@example.com',
+      address: '456 Oak Ln',
+      city: 'San Francisco',
+      zipCode: '94102'
+    },
+    items: [
+      { 
+        product: { 
+          id: 'cl-01',
+          name: 'Oversized Drop-Shoulder Tee', 
+          price: 34.99,
+          image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500',
+          category: 'Streetwear'
+        }, 
+        size: 'M', 
+        color: 'White', 
+        quantity: 2 
+      }
+    ],
+    subtotal: 69.98,
+    discount: 0.0,
+    shipping: 0.0,
+    total: 69.98,
+    paymentInfo: { paymentMethod: 'card', cardName: 'Sarah Smith', cardNumber: '•••• •••• •••• 4242' },
+    status: 'Shipped'
+  },
+  {
+    orderId: 'ORD-109348',
+    date: '07/12/2026 09:21:40 AM',
+    shippingInfo: { 
+      fullName: 'Robert Johnson', 
+      email: 'robert@example.com',
+      address: '789 Pine St',
+      city: 'Seattle',
+      zipCode: '98101'
+    },
+    items: [
+      { 
+        product: { 
+          id: 'cl-02',
+          name: 'Vintage Washed Charcoal Tee', 
+          price: 49.98,
+          image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500',
+          category: 'Vintage'
+        }, 
+        size: 'XL', 
+        color: 'Charcoal', 
+        quantity: 1 
+      }
+    ],
+    subtotal: 49.98,
+    discount: 0.0,
+    shipping: 0.0,
+    total: 49.98,
+    paymentInfo: { paymentMethod: 'gpay', upiValue: 'robert@oksbi' },
+    status: 'Delivered'
+  }
+];
+
 export const ShopProvider = ({ children }) => {
   // Theme state
   const [darkMode, setDarkMode] = useState(() => {
@@ -57,9 +122,9 @@ export const ShopProvider = ({ children }) => {
   const [orders, setOrders] = useState(() => {
     try {
       const saved = localStorage.getItem('pallywear_orders');
-      return saved ? JSON.parse(saved) : [];
+      return saved ? JSON.parse(saved) : DEFAULT_ORDERS;
     } catch (e) {
-      return [];
+      return DEFAULT_ORDERS;
     }
   });
 
@@ -238,6 +303,7 @@ export const ShopProvider = ({ children }) => {
       shipping,
       total,
       shippingInfo,
+      paymentInfo,
       status: 'Processing'
     };
 
@@ -275,13 +341,20 @@ export const ShopProvider = ({ children }) => {
     showToast('Product removed from catalog.');
   };
 
+  const updateOrderStatus = (orderId, newStatus) => {
+    setOrders(prevOrders => prevOrders.map(order => 
+      order.orderId === orderId ? { ...order, status: newStatus } : order
+    ));
+    showToast(`Order status updated to ${newStatus}.`, 'success');
+  };
+
   return (
     <ShopContext.Provider value={{
       darkMode, toggleDarkMode,
       activeView, setView, activeProduct,
       products, cart, addToCart, removeFromCart, updateCartQuantity, clearCart,
       promoCode, setPromoCode, appliedPromo, applyPromoCode, removePromoCode,
-      orders, placeOrder,
+      orders, placeOrder, updateOrderStatus,
       filters, setFilters,
       addProduct, deleteProduct,
       toast, showToast,

@@ -20,8 +20,8 @@ const Hero = () => {
       <div className="hero-content container">
         {/* Collection Badge */}
         <div className="collection-badge-wrapper animate-fade-in">
-          <span className="sparkle-icon">✨</span>
-          <span className="collection-badge-text">Spring/Summer 2032 Collection</span>
+          <span className="sparkle-icon"></span>
+          <span className="collection-badge-text"></span>
         </div>
 
         {/* Headline */}
