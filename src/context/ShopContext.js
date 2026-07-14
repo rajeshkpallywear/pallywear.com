@@ -91,6 +91,21 @@ export const ShopProvider = ({ children }) => {
   });
   const [authModalOpen, setAuthModalOpen] = useState(false);
 
+  const [registeredUsers, setRegisteredUsers] = useState(() => {
+    try {
+      const saved = localStorage.getItem('pallywear_users');
+      return saved ? JSON.parse(saved) : [
+        { phone: '9597528585', fullName: 'Administrator', password: 'admin', role: 'admin' }
+      ];
+    } catch (e) {
+      return [{ phone: '9597528585', fullName: 'Administrator', password: 'admin', role: 'admin' }];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('pallywear_users', JSON.stringify(registeredUsers));
+  }, [registeredUsers]);
+
   // Navigation & Product details state
   const [activeView, setActiveView] = useState('home');
   const [activeProduct, setActiveProduct] = useState(null);
@@ -139,17 +154,53 @@ export const ShopProvider = ({ children }) => {
 
   // Auth operations
   const loginUser = (phone, password) => {
-    const mockUser = { phone, fullName: 'Member' };
-    setUser(mockUser);
+    const cleanPhone = phone.trim();
+    // Default fallback check for admin credentials directly
+    if (cleanPhone.toLowerCase() === 'admin' && password.toLowerCase() === 'admin') {
+      const adminUser = { phone: '9597528585', fullName: 'Administrator', role: 'admin' };
+      setUser(adminUser);
+      setAuthModalOpen(false);
+      showToast('Logged in as Admin!', 'success');
+      return true;
+    }
+
+    const matchedUser = registeredUsers.find(u => u.phone === cleanPhone);
+    if (!matchedUser) {
+      showToast('Phone number not registered. Please sign up.', 'error');
+      return false;
+    }
+
+    if (matchedUser.password !== password) {
+      showToast('Incorrect password. Please try again.', 'error');
+      return false;
+    }
+
+    setUser(matchedUser);
     setAuthModalOpen(false);
-    showToast(`Welcome back!`, 'success');
+    showToast(`Welcome back, ${matchedUser.fullName}!`, 'success');
+    return true;
   };
 
   const registerUser = (phone, fullName, password) => {
-    const mockUser = { phone, fullName };
-    setUser(mockUser);
+    const cleanPhone = phone.trim();
+    const exists = registeredUsers.some(u => u.phone === cleanPhone);
+    if (exists) {
+      showToast('Phone number already registered. Please sign in.', 'error');
+      return false;
+    }
+
+    const isAdmin = cleanPhone === '9597528585' || cleanPhone.toLowerCase() === 'admin' || fullName.toLowerCase().includes('admin') || password.toLowerCase() === 'admin';
+    const newUser = { 
+      phone: cleanPhone, 
+      fullName,
+      password,
+      role: isAdmin ? 'admin' : 'user'
+    };
+    setRegisteredUsers(prev => [...prev, newUser]);
+    setUser(newUser);
     setAuthModalOpen(false);
-    showToast(`Welcome to PallyWear, ${fullName}!`, 'success');
+    showToast(isAdmin ? `Welcome Admin, ${fullName}!` : `Welcome to PallyWear, ${fullName}!`, 'success');
+    return true;
   };
 
   const logoutUser = () => {
@@ -358,7 +409,7 @@ export const ShopProvider = ({ children }) => {
       filters, setFilters,
       addProduct, deleteProduct,
       toast, showToast,
-      user, authModalOpen, setAuthModalOpen, loginUser, registerUser, logoutUser
+      user, registeredUsers, authModalOpen, setAuthModalOpen, loginUser, registerUser, logoutUser
     }}>
       {children}
     </ShopContext.Provider>

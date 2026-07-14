@@ -98,13 +98,15 @@ const Navbar = ({ onCartClick }) => {
             </div>
 
             {/* Admin Console Toggle */}
-            <button 
-              className={`btn-icon ${activeView === 'admin' ? 'active-icon' : ''}`}
-              title="Admin Dashboard"
-              onClick={() => setView('admin')}
-            >
-              <SettingsIcon size={20} />
-            </button>
+            {user && user.role === 'admin' && (
+              <button 
+                className={`btn-icon ${activeView === 'admin' ? 'active-icon' : ''}`}
+                title="Admin Dashboard"
+                onClick={() => setView('admin')}
+              >
+                <SettingsIcon size={20} />
+              </button>
+            )}
 
             {/* Theme Toggle Button */}
             <button 

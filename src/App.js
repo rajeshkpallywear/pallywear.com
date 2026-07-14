@@ -15,7 +15,7 @@ import TrackOrder from './components/TrackOrder';
 import './App.css';
 
 function MainAppContent() {
-  const { activeView, toast } = useContext(ShopContext);
+  const { activeView, toast, user } = useContext(ShopContext);
   const [cartOpen, setCartOpen] = useState(false);
 
   const renderView = () => {
@@ -29,7 +29,7 @@ function MainAppContent() {
       case 'checkout':
         return <Checkout />;
       case 'admin':
-        return <AdminPanel />;
+        return user && user.role === 'admin' ? <AdminPanel /> : <Home />;
       case 'about':
         return <About />;
       case 'track-order':
