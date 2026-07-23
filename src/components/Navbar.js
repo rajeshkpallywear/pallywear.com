@@ -44,7 +44,12 @@ const Navbar = ({ onCartClick }) => {
         <div className="navbar-content container">
           {/* Logo */}
           <div className="navbar-brand" onClick={() => setView('home')}>
-            <span className="brand-accent">PALLY</span>WEAR
+            <img 
+              src="/pallywear-logo.png" 
+              alt="PallyWear Logo" 
+              className="navbar-brand-logo" 
+            />
+            <span><span className="brand-accent">PALLY</span>WEAR</span>
           </div>
 
           {/* Navigation Links */}

@@ -43,6 +43,17 @@
   letter-spacing: -0.04em;
   cursor: pointer;
   user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.navbar-brand-logo {
+  height: 2.25rem;
+  width: 2.25rem;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(138, 43, 226, 0.25);
 }
 
 .brand-accent {
